@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import axios from 'axios';
+import { Provider } from 'react-redux';
+import GlobalStore from './redux/globalStore';
+import { setAlbums } from './redux/albums.action';
+import { setTitle } from './redux/titles.action';
+import AppRouter from './app.router';
 
-function App() {
+class App extends Component {
+
+  store = GlobalStore();
+
+  componentDidMount() {
+    axios.get('https://jsonplaceholder.typicode.com/photos')
+         .then(res => {
+           const albums = res.data.slice(0,100);
+           albums.map(alb => this.store.dispatch(setAlbums(alb)));
+         })
+         .catch(err => console.log(err))
+    axios.get('https://jsonplaceholder.typicode.com/albums')
+         .then(res => {
+            res.data.map(t => this.store.dispatch(setTitle(t)));
+            ;
+         })
+         .catch(err => console.log(err))
+  
+  }
+
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={this.store}>
+      <AppRouter />
+    </Provider>
+  )};
 }
 
 export default App;

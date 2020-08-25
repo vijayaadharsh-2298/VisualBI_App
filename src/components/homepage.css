@@ -1,0 +1,28 @@
+.song-box{
+    width: 50%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.albumcard{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px;
+    padding: 10px;
+    border: 1px solid black
+}
+
+.albumcard p{
+    font-size: 20px;
+    color: #232323;
+}
+
+.albumcard img{
+    width: 150px;
+    height: 150px;
+}
+
+.albumcard button{
+    border: none;
+    color: green;
+}
